@@ -1,0 +1,24 @@
+{
+    "name": "CaseyDeCoder.UIWitches",
+    "rootNamespace": "UIWitches",
+    "references": [
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_UI"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.ugui",
+            "expression": "1.0",
+            "define": "UNITY_UI"
+        }
+    ],
+    "noEngineReferences": false
+}
