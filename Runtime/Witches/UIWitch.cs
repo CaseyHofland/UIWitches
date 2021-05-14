@@ -12,7 +12,7 @@ namespace UIWitches
         private T _selectable;
         public T selectable => _selectable ? _selectable : (_selectable = GetComponent<T>());
 
-        [SerializeReference] private U _spell;
+        [SerializeReference] protected U _spell;
         public virtual U spell
         {
             get => _spell;
