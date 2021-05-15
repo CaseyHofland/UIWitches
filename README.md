@@ -1,4 +1,4 @@
 # UI Witches
-This package allows you to add 🧙🏻‍♀️witches to your UI, which will put a 💫spell on their result.
+This package allows you to put 🧙🏻‍♀️witches on your UI and cast a 💫spell on it!
 
-Easily and cleanly separate UI manipulation logic into their own scripts (spells) and let your witch do the rest!
+Easily separate UI code into their own scripts (spells) and select them with your witches. This package will make your UI manipulation code reusable and make it easy for designers to add logic to their UI.
