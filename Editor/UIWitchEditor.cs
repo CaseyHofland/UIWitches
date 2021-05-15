@@ -8,10 +8,13 @@ using UnityEngine.UI;
 
 namespace UIWitches.Editor
 {
-    [CustomEditor(typeof(UIWitch<, >), true)]
+    [CustomEditor(typeof(UIWitch<,>), true)]
     public class UIWitchEditor : UnityEditor.Editor
     {
         protected SerializedProperty _spell;
+
+        private PropertyInfo spellProperty;
+        private Type lastSpellType;
 
         private Type[] spellTypes;
         private string[] displayOptions;
@@ -19,14 +22,15 @@ namespace UIWitches.Editor
         protected virtual void OnEnable()
         {
             _spell = serializedObject.FindProperty(nameof(_spell));
+            spellProperty = target.GetType().GetProperty(nameof(UIWitch<Selectable, IUISpell<Selectable>>.spell));
 
             // Find all classes of the Interface Type
-            var spellType = target.GetType().GetField(nameof(_spell), BindingFlags.NonPublic | BindingFlags.Instance).FieldType;
+            var spellType = spellProperty.PropertyType;
             spellTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                                from type in assembly.GetTypes()
-                                where !type.IsAbstract
-                                where spellType.IsAssignableFrom(type)
-                                select type).ToArray();
+                          from type in assembly.GetTypes()
+                          where !type.IsAbstract
+                          where spellType.IsAssignableFrom(type)
+                          select type).ToArray();
 
             var displayOptions = new List<string>(Array.ConvertAll(spellTypes, spellType => spellType.Name));
             displayOptions.Insert(0, "None");
@@ -36,9 +40,10 @@ namespace UIWitches.Editor
 
         public override void OnInspectorGUI()
         {
+            // Serialize the spell.
             serializedObject.Update();
 
-            var index = Array.IndexOf(spellTypes, CurrentSpellType()) + 1;
+            var index = Array.IndexOf(spellTypes, lastSpellType = GetCurrentSpellType()) + 1;
 
             EditorGUI.BeginChangeCheck();
             index = EditorGUILayout.Popup("Spells", index, displayOptions);
@@ -53,13 +58,22 @@ namespace UIWitches.Editor
                     var spellType = spellTypes[index - 1];
                     _spell.managedReferenceValue = Activator.CreateInstance(spellType);
                 }
+
+                var typeCopy = lastSpellType;
+                EditorApplication.delayCall += () => UpdateSpellProperty(typeCopy);
             }
 
             EditorGUILayout.PropertyField(_spell, true);
 
-            if(index != 0 && GUILayout.Button("Reset UI"))
+            var iterator = _spell.Copy();
+            while (iterator.NextVisible(false))
             {
-                var resetUI = target.GetType().GetMethod(nameof(UIWitch < Selectable, IUISpell<Selectable>>.ResetUI));
+                EditorGUILayout.PropertyField(iterator);
+            }
+
+            if (index != 0 && GUILayout.Button("Reset UI"))
+            {
+                var resetUI = target.GetType().GetMethod(nameof(UIWitch<Selectable, IUISpell<Selectable>>.ResetUI));
                 resetUI.Invoke(target, Array.Empty<object>());
 
                 EditorApplication.QueuePlayerLoopUpdate();
@@ -68,7 +82,35 @@ namespace UIWitches.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
-        private Type CurrentSpellType()
+        // Update the spell property. This is important because listeners are assigned and removed inside of it.
+        private void UpdateSpellProperty(Type lastSpellType)
+        {
+            var currentSpellType = GetCurrentSpellType();
+            if (lastSpellType != currentSpellType)
+            {
+                if (lastSpellType == null)
+                {
+                    _spell.managedReferenceValue = null;
+                }
+                else
+                {
+                    _spell.managedReferenceValue = Activator.CreateInstance(lastSpellType);
+                }
+
+                serializedObject.ApplyModifiedPropertiesWithoutUndo();
+
+                if (currentSpellType == null)
+                {
+                    spellProperty.SetValue(target, null);
+                }
+                else
+                {
+                    spellProperty.SetValue(target, Activator.CreateInstance(currentSpellType));
+                }
+            }
+        }
+
+        private Type GetCurrentSpellType()
         {
             if (string.IsNullOrEmpty(_spell.managedReferenceFullTypename))
             {
@@ -78,7 +120,7 @@ namespace UIWitches.Editor
             var fullTypename = _spell.managedReferenceFullTypename.Split(' ');
             var assembly = Assembly.Load(fullTypename[0]);
             var type = assembly.GetType(fullTypename[1]);
-            
+
             return type;
         }
     }
