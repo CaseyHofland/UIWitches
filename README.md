@@ -79,6 +79,7 @@ If you'd like to contribute, please fork the repository and use a feature branch
 - Repository: https://github.com/Casey-Hofland/UIWitches
 - Issue Tracker: https://github.com/Casey-Hofland/UIWitches/issues
 - Documentation: https://github.com/Casey-Hofland/UIWitches/wiki
+- Changelog: https://github.com/Casey-Hofland/UIWitches/blob/master/CHANGELOG.md
 
 In case of business inquiries or partnerships, you may contact me at hofland.casey@gmail.com.
 
