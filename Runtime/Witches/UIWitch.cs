@@ -10,7 +10,13 @@ using Object = UnityEngine.Object;
 
 namespace UIWitches
 {
+    /// <summary>
+    /// A UI Witch base class implementing generic UI Witch functionality.
+    /// </summary>
+    /// <typeparam name="T">The type of Selectable this UI Witch is for.</typeparam>
+    /// <typeparam name="U">The type of Spell this UI Witch needs.</typeparam>
     [ExecuteAlways]
+    [RequireComponent(typeof(Selectable))]
     public abstract class UIWitch<T, U> : MonoBehaviour
 #if UNITY_EDITOR
         , ISerializationCallbackReceiver
@@ -22,33 +28,40 @@ namespace UIWitches
         public T selectable => _selectable ? _selectable : (_selectable = GetComponent<T>());
 
         [SerializeReference] protected U _spell;
+
+        /// <summary>
+        /// The spell the UI Witch is using. The spell is what influences the UI.
+        /// </summary>
         public virtual U spell
         {
             get => _spell;
             set => _spell = value;
         }
 
-        public virtual void ResetUI()
+        /// <summary>
+        /// Calls the Reset UI function of the assigned spell and applies changes to the UI.
+        /// </summary>
+        public void ResetUI()
         {
             spell?.ResetUI(selectable);
         }
 
 #if UNITY_EDITOR
         private string lastType;
-        public void OnBeforeSerialize()
+        public virtual void OnBeforeSerialize()
         {
             lastType = _spell?.GetType().AssemblyQualifiedName;
         }
 
         private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Instance;
-        public void OnAfterDeserialize()
+        public virtual void OnAfterDeserialize()
         {
             if (!string.IsNullOrEmpty(lastType) && Type.GetType(lastType) == null)
             {
                 UnityEditor.EditorApplication.delayCall += () =>
                 {
+                    // Destroy our object immediately. Doing this takes [DisallowMultipleComponent] into account.
                     var go = gameObject;
-
                     DestroyImmediate(this);
 
                     // Create a new component of the same type.
@@ -86,12 +99,24 @@ namespace UIWitches
 #endif
     }
 
+    /// <summary>
+    /// A UI Witch base class implementing generic UI Witch functionality.
+    /// </summary>
+    /// <typeparam name="T">The type of Selectable this UI Witch is for.</typeparam>
+    /// <typeparam name="U">The type of value the Selectable is expecting.</typeparam>
+    /// <typeparam name="V">The type of Spell this UI Witch needs.</typeparam>
     public abstract class UIWitch<T, U, V> : UIWitch<T, V>
         where T : Selectable
         where V : class, IUISpell<T, U>
     {
+        /// <summary>
+        /// The UI's on value changed event.
+        /// </summary>
         protected abstract UnityEvent<U> onValueChanged { get; }
-        protected abstract UnityAction<U> setValueWithoutNotify { get; }
+        /// <summary>
+        /// The UI's set without notify method.
+        /// </summary>
+        protected abstract UnityAction<U> setWithoutNotify { get; }
 
         public override V spell
         {
@@ -132,7 +157,7 @@ namespace UIWitches
         {
             if (spell != null)
             {
-                setValueWithoutNotify.Invoke(spell.GetValue());
+                setWithoutNotify.Invoke(spell.GetValue());
             }
         }
     }

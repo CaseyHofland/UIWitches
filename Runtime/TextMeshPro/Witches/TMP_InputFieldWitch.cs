@@ -4,12 +4,15 @@ using UnityEngine.Events;
 
 namespace UIWitches.TMPro
 {
+    /// <summary>
+    /// A UI Witch for the <c>TMP_InputField</c> Component, using <c>ITMP_InputFieldSpell</c>.
+    /// </summary>
     [RequireComponent(typeof(TMP_InputField))]
     [AddComponentMenu("UI/Witches/Input Field Witch - TextMeshPro")]
     public class TMP_InputFieldWitch : UIWitch<TMP_InputField, string, ITMP_InputFieldSpell>
     {
         protected override UnityEvent<string> onValueChanged => selectable.onValueChanged;
-        protected override UnityAction<string> setValueWithoutNotify => selectable.SetTextWithoutNotify;
+        protected override UnityAction<string> setWithoutNotify => selectable.SetTextWithoutNotify;
 
         public override ITMP_InputFieldSpell spell
         {

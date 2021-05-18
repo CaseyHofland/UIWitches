@@ -4,12 +4,15 @@ using UnityEngine.UI;
 
 namespace UIWitches
 {
+    /// <summary>
+    /// A UI Witch for the <c>InputField</c> Component, using <c>IInputFieldSpell</c>.
+    /// </summary>
     [RequireComponent(typeof(InputField))]
     [AddComponentMenu("UI/Witches/Input Field Witch")]
     public class InputFieldWitch : UIWitch<InputField, string, IInputFieldSpell>
     {
         protected override UnityEvent<string> onValueChanged => selectable.onValueChanged;
-        protected override UnityAction<string> setValueWithoutNotify => selectable.SetTextWithoutNotify;
+        protected override UnityAction<string> setWithoutNotify => selectable.SetTextWithoutNotify;
 
         public override IInputFieldSpell spell 
         { 
