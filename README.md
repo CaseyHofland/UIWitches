@@ -25,12 +25,43 @@ public class MyToggleSpell : IToggleSpell {}
 3. Implement the interface. This will provide you with functions to manipulate the UI. For now, let's return to the editor.
 4. The Toggle Witch can now select the MyToggleSpell spell.
 
+Awesome! Of course, this doesn't work yet, since we still need to fill out those interface functions. Let's go 1 by 1.
+
+5. The GetValue method couples a value back to the UI. Basically, whatever we return here, the UI will show. For example:
+```csharp
+public float f;
+public bool GetValue()
+{
+    return f > 0;
+}
+// Our spell now has a value f. If we set it to more than 0, we can see our toggle turn on, and off again when we set our value to 0 or lower.
+```
+
+6. ValueChanged is the other way around: this couples a change in our UI back to our value. For example:
+```csharp
+public void ValueChanged(bool isOn)
+{
+    f = isOn ? 1 : 0;
+}
+// If we press play and click our toggle, we can see f change to 0 and 1 for off and on respectively.
+```
+
+7. ResetUI lets you instantly apply modifications to the UI. This is called when the Reset UI button is pressed in the bottom of a UI Witch. For example:
+```csharp
+public void ResetUI(Toggle toggle)
+{
+    toggle.toggleTransition = Toggle.ToggleTransition.None;
+}
+// If we click our Reset UI button, we can see that it will set the Toggle Transition on our Toggle to None.
+```
+
 And that's it! You've learned how to write spells: you're a true witch.
 
 > Note that if you want to write spells for Text Mesh Pro Dropdowns and InputFields you must inherit for example ITMP_DropdownSpell, NOT IDropdownSpell (or you can just inherit both).
 
 ## Features
 
+Briefly, this is why you need UI Witches:
 * Separate UI code into reuseable scritps.
 * Text Mesh Pro support.
 
