@@ -5,10 +5,12 @@ Easily separate UI code into their own scripts (spells) and select them with a g
 
 ## Installing
 
-You can install this package via Unity's package manager. Simply copy the repository and paste it under "add git package".
+You can install this package via Unity's package manager. Simply copy the repository and paste it under "Add package from git URL...".
 
-The package assumes you have Unity UI installed. If you don't have Unity UI installed, the package won't compile as a safeguard.
-UI Witches also has Text Mesh Pro support where the same safeguard applies, though Text Mesh Pro is optional.
+![Install Guide](Documentation~/Install%20Guide.jpg)
+
+The package assumes you have [Unity UI](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/index.html) installed. If you don't have Unity UI installed, the package won't compile as a safeguard.<br/>
+UI Witches also has [Text Mesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) support where the same safeguard applies, though Text Mesh Pro is optional.
 
 ## Developing
 
@@ -70,7 +72,7 @@ Briefly, this is why you need UI Witches:
 If you'd like to contribute, please fork the repository and use a feature branch. Use the same styling as Unity, meaning:
 * Use camelCase for fields and properties.
 * Use the [C# General Naming Conventions](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/general-naming-conventions) for everything else.
-* When extending Text Mesh Pro, try to follow their naming conventions as close as possible, even though they break every rule in the aformentioned Naming Conventions. For example, write `public TMP_Dropdown tmp_Dropdown; // Normally wrong`, instead of `public TMP_Dropdown tmpDropdown; // Normally right`.
+* When extending Text Mesh Pro, try to follow their naming conventions as close as possible, even though they may break the aformentioned C# General Naming Conventions. For example, write `public TMP_Dropdown tmp_Dropdown; // Normally wrong`, instead of `public TMP_Dropdown tmpDropdown; // Normally right`.
 
 ## Links
 
