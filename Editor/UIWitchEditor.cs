@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,8 @@ namespace UIWitches.Editor
                           where spellType.IsAssignableFrom(type)
                           select type).ToArray();
 
-            var displayOptions = new List<string>(Array.ConvertAll(spellTypes, spellType => spellType.Name));
+            var spaceCapitalPattern = new Regex(@"((?<=\p{Ll})\p{Lu})|((?!\A)\p{Lu}(?>\p{Ll}))");
+            var displayOptions = new List<string>(Array.ConvertAll(spellTypes, spellType => spaceCapitalPattern.Replace(spellType.Name, " $0")));
             displayOptions.Insert(0, "None");
 
             this.displayOptions = displayOptions.ToArray();
