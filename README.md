@@ -72,7 +72,7 @@ Briefly, this is why you need UI Witches:
 If you'd like to contribute, please fork the repository and use a feature branch. For styling:
 * Use the [C# General Naming Conventions](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/general-naming-conventions).
 * Use camelCase for properties, like Unity does.
-* Follow established naming conventions as close as possible, even if these break the aformentioned rules. For example: write `public TMP_Dropdown tmp_Dropdown; // Normally wrong` instead of `public TMP_Dropdown tmpDropdown; // Normally right`. This rule will likely only come up if you are extending something using Text Mesh Pro.
+* Follow established naming conventions as close as possible, even if these break the aformentioned rules. For example: write `public TMP_Dropdown tmp_Dropdown; // Normally wrong` instead of `public TMP_Dropdown tmpDropdown; // Normally right`. This rule will likely only come up if you are extending something for Text Mesh Pro.
 
 ## Links
 
