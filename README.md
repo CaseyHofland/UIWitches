@@ -62,7 +62,7 @@ And that's it! You've learned how to write spells: you're a true witch.
 ## Features
 
 Briefly, this is why you need UI Witches:
-* Separate UI code into reuseable scritps.
+* Separate UI code into reuseable scripts.
 * Text Mesh Pro support.
 
 ## Contributing
