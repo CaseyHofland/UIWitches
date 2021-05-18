@@ -80,6 +80,8 @@ If you'd like to contribute, please fork the repository and use a feature branch
 - Issue Tracker: https://github.com/Casey-Hofland/UIWitches/issues
 - Documentation: https://github.com/Casey-Hofland/UIWitches/wiki
 
+In case of business inquiries or partnerships, you may contact me at hofland.casey@gmail.com.
+
 ## Licensing
 
 The code in this project is licensed under the MIT license.
