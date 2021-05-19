@@ -5,12 +5,10 @@ Easily separate UI code into their own scripts (spells) and select them with a g
 
 ## Installing
 
-You can install this package via Unity's package manager. Simply copy the repository and paste it under "Add package from git URL...".
+Follow the instructions in the [Unity Manual](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
 
-![Install Guide](Documentation~/images/Install%20Guide.jpg)
-
-The package assumes you have [Unity UI](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/index.html) installed. If you don't have Unity UI installed, the package won't compile as a safeguard.<br/>
-UI Witches also has [Text Mesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) support where the same safeguard applies, though Text Mesh Pro is optional.
+The package assumes you have [Unity UI](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/index.html) installed. Note that no error will be thrown if omitted, but UI Witches won't show up.<br/>
+UI Witches also has optional [Text Mesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) support where the same applies.
 
 ## Developing
 
