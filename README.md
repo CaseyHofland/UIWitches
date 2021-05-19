@@ -18,6 +18,7 @@ Once the package is installed, starting with UI Witches is as easy as flying a b
 ```csharp
 using System;
 using UIWitches;
+using UnityEngine.UI;
 
 [Serializable]
 public class MyToggleSpell : IToggleSpell {}
