@@ -7,6 +7,8 @@ Easily separate UI code into their own scripts (spells) and select them with a g
 
 Follow the instructions in the [Unity Manual](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
 
+### Dependancies
+
 UI Witches is using [Unity UI 1.0.0](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/index.html).
 
 UI Witches also has optional [Text Mesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) support.
