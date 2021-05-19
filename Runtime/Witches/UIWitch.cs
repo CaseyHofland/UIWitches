@@ -17,10 +17,7 @@ namespace UIWitches
     /// <typeparam name="U">The type of Spell this UI Witch needs.</typeparam>
     [ExecuteAlways]
     [RequireComponent(typeof(Selectable))]
-    public abstract class UIWitch<T, U> : MonoBehaviour
-#if UNITY_EDITOR
-        , ISerializationCallbackReceiver
-#endif
+    public abstract class UIWitch<T, U> : MonoBehaviour, ISerializationCallbackReceiver
         where T : Selectable
         where U : class, IUISpell<T>
     {
@@ -48,14 +45,19 @@ namespace UIWitches
 
 #if UNITY_EDITOR
         private string lastType;
+        private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Instance;
+#endif
+
         public virtual void OnBeforeSerialize()
         {
+#if UNITY_EDITOR
             lastType = _spell?.GetType().AssemblyQualifiedName;
+#endif
         }
 
-        private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Instance;
         public virtual void OnAfterDeserialize()
         {
+#if UNITY_EDITOR
             if (!string.IsNullOrEmpty(lastType) && Type.GetType(lastType) == null)
             {
                 UnityEditor.EditorApplication.delayCall += () =>
@@ -95,8 +97,8 @@ namespace UIWitches
                     }
                 };
             }
-        }
 #endif
+        }
     }
 
     /// <summary>
@@ -125,14 +127,14 @@ namespace UIWitches
             {
                 if (base.spell != null)
                 {
-                    onValueChanged.RemoveListener(base.spell.ValueChanged);
+                    onValueChanged.RemoveListener(base.spell.OnValueChanged);
                 }
 
                 base.spell = value;
 
                 if (base.spell != null)
                 {
-                    onValueChanged.AddListener(base.spell.ValueChanged);
+                    onValueChanged.AddListener(base.spell.OnValueChanged);
                 }
             }
         }
@@ -141,7 +143,7 @@ namespace UIWitches
         {
             if (spell != null)
             {
-                onValueChanged.AddListener(spell.ValueChanged);
+                onValueChanged.AddListener(spell.OnValueChanged);
             }
         }
 
@@ -149,7 +151,7 @@ namespace UIWitches
         {
             if (spell != null)
             {
-                onValueChanged.RemoveListener(spell.ValueChanged);
+                onValueChanged.RemoveListener(spell.OnValueChanged);
             }
         }
 

@@ -17,6 +17,6 @@ namespace UIWitches
         /// Passes through the new toggle value when it is changed.
         /// </summary>
         /// <param name="isOn">The new toggle value.</param>
-        new void ValueChanged(bool isOn);
+        new void OnValueChanged(bool isOn);
     }
 }

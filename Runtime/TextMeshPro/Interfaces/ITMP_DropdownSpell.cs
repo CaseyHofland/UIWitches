@@ -17,6 +17,6 @@ namespace UIWitches.TMPro
         /// Passes through the new tmp_Dropdown index when it is changed.
         /// </summary>
         /// <param name="tmp_DropdownIndex">The new tmp_Dropdown index.</param>
-        new void ValueChanged(int tmp_DropdownIndex);
+        new void OnValueChanged(int tmp_DropdownIndex);
     }
 }

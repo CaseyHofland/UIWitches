@@ -17,7 +17,7 @@ namespace UIWitches
         /// Passes through the new text when it is changed.
         /// </summary>
         /// <param name="text">The new text.</param>
-        new void ValueChanged(string text);
+        new void OnValueChanged(string text);
 
         char ValidateInput(string text, int charIndex, char addedChar);
         void EndEdit(string value);

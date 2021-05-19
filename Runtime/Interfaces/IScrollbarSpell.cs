@@ -17,6 +17,6 @@ namespace UIWitches
         /// Passes through the new scrollbar value when it is changed.
         /// </summary>
         /// <param name="scrollbarValue">The new scrollbar value.</param>
-        new void ValueChanged(float scrollbarValue);
+        new void OnValueChanged(float scrollbarValue);
     }
 }

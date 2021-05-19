@@ -19,15 +19,9 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "UNITY_UI",
         "UNITY_TEXTMESHPRO"
     ],
     "versionDefines": [
-        {
-            "name": "com.unity.ugui",
-            "expression": "1.0",
-            "define": "UNITY_UI"
-        },
         {
             "name": "com.unity.textmeshpro",
             "expression": "1.0",

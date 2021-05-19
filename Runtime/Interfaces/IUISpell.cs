@@ -32,6 +32,6 @@ namespace UIWitches
         /// Passes through the new value of the UI when it is changed.
         /// </summary>
         /// <param name="value">The new value of the UI.</param>
-        void ValueChanged(U value);
+        void OnValueChanged(U value);
     }
 }

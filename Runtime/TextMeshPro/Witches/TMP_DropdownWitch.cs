@@ -8,7 +8,7 @@ namespace UIWitches.TMPro
     /// A UI Witch for the <c>TMP_Dropdown</c> Component, using <c>ITMP_DropdownSpell</c>.
     /// </summary>
     [RequireComponent(typeof(TMP_Dropdown))]
-    [AddComponentMenu("UI/Witches/Dropdown Witch - TextMeshPro")]
+    [AddComponentMenu("UI/Witches/Dropdown - TextMeshPro Witch")]
     public class TMP_DropdownWitch : UIWitch<TMP_Dropdown, int, ITMP_DropdownSpell>
     {
         protected override UnityEvent<int> onValueChanged => selectable.onValueChanged;

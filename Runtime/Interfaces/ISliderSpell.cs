@@ -17,6 +17,6 @@ namespace UIWitches
         /// Passes through the new slider value when it is changed.
         /// </summary>
         /// <param name="sliderValue">The new slider value.</param>
-        new void ValueChanged(float sliderValue);
+        new void OnValueChanged(float sliderValue);
     }
 }

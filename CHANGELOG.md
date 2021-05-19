@@ -4,6 +4,15 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.1.1-pre] - 2021-05-19
+### Added
+- OnClick callback for IButtonSpells.
+
+### Changed
+- Made Unity UI 1.0.0 a dependency of this package.
+- Changed ValueChanged method of spells to OnValueChanged.
+- Changed the Component Menu name of "Input Field Witch - TextMeshPro" to TextMeshPro - Input Field Witch" and "Dropdown Witch - TextMeshPro" to "Dropdown - TextMeshPro Witch". If this naming seems odd to you, take it up with the Text Mesh Pro team.
+
 ## [0.1.0-pre.2] - 2021-05-18
 ### Added
 - IUISpellDrawer draws the spell without the redundant spell dropdown, for a smoother editor experience.

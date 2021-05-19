@@ -8,7 +8,7 @@ namespace UIWitches.TMPro
     /// A UI Witch for the <c>TMP_InputField</c> Component, using <c>ITMP_InputFieldSpell</c>.
     /// </summary>
     [RequireComponent(typeof(TMP_InputField))]
-    [AddComponentMenu("UI/Witches/Input Field Witch - TextMeshPro")]
+    [AddComponentMenu("UI/Witches/TextMeshPro - Input Field Witch")]
     public class TMP_InputFieldWitch : UIWitch<TMP_InputField, string, ITMP_InputFieldSpell>
     {
         protected override UnityEvent<string> onValueChanged => selectable.onValueChanged;

@@ -14,15 +14,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "UNITY_UI"
-    ],
-    "versionDefines": [
-        {
-            "name": "com.unity.ugui",
-            "expression": "1.0",
-            "define": "UNITY_UI"
-        }
-    ],
+    "defineConstraints": [],
+    "versionDefines": [],
     "noEngineReferences": false
 }

@@ -17,6 +17,6 @@ namespace UIWitches
         /// Passes through the new dropdown index when it is changed.
         /// </summary>
         /// <param name="dropdownIndex">The new dropdown index.</param>
-        new void ValueChanged(int dropdownIndex);
+        new void OnValueChanged(int dropdownIndex);
     }
 }

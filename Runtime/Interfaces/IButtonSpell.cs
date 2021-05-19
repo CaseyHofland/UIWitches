@@ -12,5 +12,10 @@ namespace UIWitches
         /// </summary>
         /// <param name="button">The Button to reset.</param>
         new void ResetUI(Button button);
+
+        /// <summary>
+        /// Called when the button is clicked.
+        /// </summary>
+        void OnClick();
     }
 }
