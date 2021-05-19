@@ -7,8 +7,8 @@ Easily separate UI code into their own scripts (spells) and select them with a g
 
 Follow the instructions in the [Unity Manual](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
 
-The package assumes you have [Unity UI](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/index.html) installed. Note that no error will be thrown if omitted, but UI Witches won't show up.<br/>
-UI Witches also has optional [Text Mesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) support where the same applies.
+UI Witches requires [Unity UI](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/index.html) to be installed.<br/>
+UI Witches also has optional [Text Mesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) support.
 
 ## Developing
 
