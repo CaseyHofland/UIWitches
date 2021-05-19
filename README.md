@@ -5,7 +5,7 @@ Easily separate UI code into their own scripts (spells) and select them with a g
 
 ## Installation
 
-Follow the [Installing from a Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html) instructions from the Unity Manual.
+Follow the [Installing from a Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html) instructions in the Unity Manual.
 
 ### Dependencies
 
