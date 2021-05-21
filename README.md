@@ -3,6 +3,8 @@
 
 Easily separate UI code into their own scripts (spells) and select them with a generalized component (witch). This package will make your UI manipulation code reusable and make it easy for designers to experiment with and add logic to their UI.
 
+Check the [Wiki](https://github.com/Casey-Hofland/UIWitches/wiki) for the documentation.
+
 ## Installation
 
 Follow the [Installing from a Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html) instructions in the Unity Manual.
@@ -15,50 +17,55 @@ Follow the [Installing from a Git URL](https://docs.unity3d.com/Manual/upm-ui-gi
 ## Developing
 
 Once the package is installed, starting with UI Witches is as easy as flying a broom!
-1. Create a Toggle and add a Toggle Witch component to it.
-2. Create a new script like this:
+1. Create a new script:
 ```csharp
-using System;
-using UIWitches;
-using UnityEngine.UI;
+[Serializable] // Don’t forget this!
+public class MyToggleSpell : IToggleSpell 
+{
+    // Returns the value for the UI to display. This is called every LateUpdate by the UI Witch.
+    public bool GetValue() => default;
+    
+    // When the toggle is changed via e.g. user input, this method is called containing the new value.
+    public void OnValueChanged(bool isOn) {}
+    
+    // This is a convenience method for instantly resetting the UI.
+    public void ResetUI(Toggle toggle) {}
+}
+```
+2. Create a Toggle and add a Toggle Witch Component to it.
+3. Select My Toggle Spell in the Toggle Witch.
 
+And that's it! You've learned how to write spells: you're a true witch!
+
+But why use spells? Well, they enable you to write reusable UI scripts, not only for your game, but across projects, especially when working with ScriptableObjects. Take this script for example:
+```csharp
 [Serializable]
-public class MyToggleSpell : IToggleSpell {}
-```
-3. Implement the interface. This will provide you with functions to manipulate the UI. For now, let's return to the editor.
-4. The Toggle Witch can now select the MyToggleSpell spell.
-
-Awesome! Of course, this doesn't work yet, since we still need to fill out those interface functions. Let's go 1 by 1.
-
-5. The GetValue method couples a value back to the UI. Basically, whatever we return here, the UI will show. For example:
-```csharp
-public float f;
-public bool GetValue()
+public class AudioParameterSpell : ISliderSpell
 {
-    return f > 0;
+    public AudioMixer audioMixer;
+    public string parameterName;
+    public float valueMargin = 80;
+
+    public float GetValue()
+    {
+        audioMixer.GetFloat(parameterName, out float value);
+        return value + valueMargin;
+    }
+
+    public void OnValueChanged(float sliderValue)
+    {
+        audioMixer.SetFloat(parameterName, sliderValue - valueMargin);
+    }
+
+    public void ResetUI(Slider slider)
+    {
+        slider.minValue = -80 + valueMargin;
+        slider.maxValue = 20 + valueMargin;
+    }
 }
-// Our spell now has a value f. If we set it to more than 0, we can see our toggle turn on, and off again when we set our value to 0 or lower.
 ```
 
-6. ValueChanged is the other way around: this couples a change in our UI back to our value. For example:
-```csharp
-public void ValueChanged(bool isOn)
-{
-    f = isOn ? 1 : 0;
-}
-// If we press play and click our toggle, we can see f change to 0 and 1 for off and on respectively.
-```
-
-7. ResetUI lets you instantly apply modifications to the UI. This is called when the Reset UI button is pressed in the bottom of a UI Witch. For example:
-```csharp
-public void ResetUI(Toggle toggle)
-{
-    toggle.toggleTransition = Toggle.ToggleTransition.None;
-}
-// If we click our Reset UI button, we can see that it will set the Toggle Transition on our Toggle to None.
-```
-
-And that's it! You've learned how to write spells: you're a true witch.
+This can set any parameter on any audio mixer and would be great for a slider that sets the music volume as well as one that sets the effects volume.
 
 > Note that if you want to write spells for Text Mesh Pro Dropdowns and InputFields you must inherit for example ITMP_DropdownSpell, NOT IDropdownSpell (or you can just inherit both).
 
