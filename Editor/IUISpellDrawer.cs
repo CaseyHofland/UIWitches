@@ -17,9 +17,9 @@ namespace UIWitches.Editor
             {
                 do
                 {
-                    position.height = EditorGUI.GetPropertyHeight(property);
+                    position.height = EditorGUI.GetPropertyHeight(property, true);
 
-                    EditorGUI.PropertyField(position, property);
+                    EditorGUI.PropertyField(position, property, true);
 
                     position.y += position.height + heightMargin;
                 }
@@ -38,7 +38,7 @@ namespace UIWitches.Editor
             {
                 do
                 {
-                    height += EditorGUI.GetPropertyHeight(property);
+                    height += EditorGUI.GetPropertyHeight(property, true);
                 }
                 while (property.NextVisible(false));
             }
