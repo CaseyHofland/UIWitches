@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace UIWitches.Editor
 {
-    [CustomPropertyDrawer(typeof(IUISpell<>), true)]
-    public class IUISpellDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(UISpell<>), true)]
+    public class UISpellDrawer : PropertyDrawer
     {
         private const float heightMargin = 2f;
 
@@ -13,7 +13,8 @@ namespace UIWitches.Editor
             EditorGUI.BeginProperty(position, label, property);
 
             property = property.Copy();
-            if (property.NextVisible(true))
+            var pathStart = $"{property.propertyPath}.";
+            if (property.NextVisible(true) && property.propertyPath.StartsWith(pathStart))
             {
                 do
                 {
@@ -23,7 +24,7 @@ namespace UIWitches.Editor
 
                     position.y += position.height + heightMargin;
                 }
-                while (property.NextVisible(false));
+                while (property.NextVisible(false) && property.propertyPath.StartsWith(pathStart));
             }
 
             EditorGUI.EndProperty();
@@ -34,13 +35,14 @@ namespace UIWitches.Editor
             var height = heightMargin;
 
             property = property.Copy();
-            if (property.NextVisible(true))
+            var pathStart = $"{property.propertyPath}.";
+            if (property.NextVisible(true) && property.propertyPath.StartsWith(pathStart))
             {
                 do
                 {
                     height += EditorGUI.GetPropertyHeight(property, true);
                 }
-                while (property.NextVisible(false));
+                while (property.NextVisible(false) && property.propertyPath.StartsWith(pathStart));
             }
 
             return height;

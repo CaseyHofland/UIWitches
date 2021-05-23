@@ -1,129 +1,80 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace UIWitches.Editor
 {
-    [CustomEditor(typeof(UIWitch<,>), true)]
+    [CustomEditor(typeof(UIWitch<>), true)]
     public class UIWitchEditor : UnityEditor.Editor
     {
+        protected SerializedProperty m_Script;
         protected SerializedProperty _spell;
 
-        private PropertyInfo spellProperty;
-        private Type lastSpellType;
+        protected PropertyInfo spellProperty;
+        protected object spellValue => spellProperty.GetValue(target);
 
         private Type[] spellTypes;
         private string[] displayOptions;
 
         protected virtual void OnEnable()
         {
+            m_Script = serializedObject.FindProperty(nameof(m_Script));
             _spell = serializedObject.FindProperty(nameof(_spell));
-            spellProperty = target.GetType().GetProperty(nameof(UIWitch<Selectable, IUISpell<Selectable>>.spell));
 
-            // Find all classes of the Interface Type
-            var spellType = spellProperty.PropertyType;
+            spellProperty = target.GetType().GetProperty(nameof(UIWitch<UIBehaviour>.spell));
+
             spellTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
                           from type in assembly.GetTypes()
+                          where type.IsClass
                           where !type.IsAbstract
-                          where spellType.IsAssignableFrom(type)
+                          where !type.IsGenericType
+                          where type.IsSubclassOf(spellProperty.PropertyType)
+                          where !type.IsSubclassOf(typeof(UnityEngine.Object))
                           select type).ToArray();
 
             var spaceCapitalPattern = new Regex(@"((?<=\p{Ll})\p{Lu})|((?!\A)\p{Lu}(?>\p{Ll}))");
-            var displayOptions = new List<string>(Array.ConvertAll(spellTypes, spellType => spaceCapitalPattern.Replace(spellType.Name, " $0")));
-            displayOptions.Insert(0, "None");
 
-            this.displayOptions = displayOptions.ToArray();
+            displayOptions = new string[spellTypes.Length + 1];
+            displayOptions[0] = "None";
+            for(int i = 1; i < displayOptions.Length; i++)
+            {
+                displayOptions[i] = spellTypes[i - 1].Name;
+            }
         }
 
         public override void OnInspectorGUI()
         {
-            // Serialize the spell.
             serializedObject.Update();
 
-            var index = Array.IndexOf(spellTypes, lastSpellType = GetCurrentSpellType()) + 1;
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(m_Script, true);
+            EditorGUI.EndDisabledGroup();
+
+            var index = Array.IndexOf(spellTypes, spellValue?.GetType()) + 1;
 
             EditorGUI.BeginChangeCheck();
             index = EditorGUILayout.Popup("Spells", index, displayOptions);
-            if (EditorGUI.EndChangeCheck())
+            if(EditorGUI.EndChangeCheck())
             {
-                if (index == 0)
-                {
-                    _spell.managedReferenceValue = null;
-                }
-                else
-                {
-                    var spellType = spellTypes[index - 1];
-                    _spell.managedReferenceValue = Activator.CreateInstance(spellType);
-                }
-
-                var typeCopy = lastSpellType;
-                EditorApplication.delayCall += () => UpdateSpellProperty(typeCopy);
+                var value = index == 0 ? null : Activator.CreateInstance(spellTypes[index - 1]);
+                _spell.managedReferenceValue = value;
             }
 
-            EditorGUILayout.PropertyField(_spell, true);
+            if(!string.IsNullOrEmpty(_spell.managedReferenceFullTypename))
+            {
+                EditorGUILayout.PropertyField(_spell, true);
+            }
 
             var iterator = _spell.Copy();
             while (iterator.NextVisible(false))
             {
-                EditorGUILayout.PropertyField(iterator);
-            }
-
-            if (index != 0 && GUILayout.Button("Reset UI"))
-            {
-                var resetUI = target.GetType().GetMethod(nameof(UIWitch<Selectable, IUISpell<Selectable>>.ResetUI));
-                resetUI.Invoke(target, Array.Empty<object>());
-
-                EditorApplication.QueuePlayerLoopUpdate();
+                EditorGUILayout.PropertyField(iterator, true);
             }
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        // Update the spell property. This is important because listeners are assigned and removed inside of it.
-        private void UpdateSpellProperty(Type lastSpellType)
-        {
-            var currentSpellType = GetCurrentSpellType();
-            if (lastSpellType != currentSpellType)
-            {
-                if (lastSpellType == null)
-                {
-                    _spell.managedReferenceValue = null;
-                }
-                else
-                {
-                    _spell.managedReferenceValue = Activator.CreateInstance(lastSpellType);
-                }
-
-                serializedObject.ApplyModifiedPropertiesWithoutUndo();
-
-                if (currentSpellType == null)
-                {
-                    spellProperty.SetValue(target, null);
-                }
-                else
-                {
-                    spellProperty.SetValue(target, Activator.CreateInstance(currentSpellType));
-                }
-            }
-        }
-
-        private Type GetCurrentSpellType()
-        {
-            if (string.IsNullOrEmpty(_spell.managedReferenceFullTypename))
-            {
-                return null;
-            }
-
-            var fullTypename = _spell.managedReferenceFullTypename.Split(' ');
-            var assembly = Assembly.Load(fullTypename[0]);
-            var type = assembly.GetType(fullTypename[1]);
-
-            return type;
         }
     }
 }

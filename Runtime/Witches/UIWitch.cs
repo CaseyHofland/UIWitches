@@ -3,46 +3,95 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Object = UnityEngine.Object;
 
 namespace UIWitches
 {
-    /// <summary>
-    /// A UI Witch base class implementing generic UI Witch functionality.
-    /// </summary>
-    /// <typeparam name="T">The type of Selectable this UI Witch is for.</typeparam>
-    /// <typeparam name="U">The type of Spell this UI Witch needs.</typeparam>
     [ExecuteAlways]
-    [RequireComponent(typeof(Selectable))]
-    public abstract class UIWitch<T, U> : MonoBehaviour, ISerializationCallbackReceiver
-        where T : Selectable
-        where U : class, IUISpell<T>
+    [RequireComponent(typeof(UIBehaviour))]
+    public abstract class UIWitch<T> : MonoBehaviour, ISerializationCallbackReceiver
+        where T : UIBehaviour
     {
-        private T _selectable;
-        public T selectable => _selectable ? _selectable : (_selectable = GetComponent<T>());
+        private T _ui;
+        public T ui => _ui ? _ui : (_ui = GetComponent<T>());
 
-        [SerializeReference] protected U _spell;
+        [field: SerializeReference] private object _spell;
 
-        /// <summary>
-        /// The spell the UI Witch is using. The spell is what influences the UI.
-        /// </summary>
-        public virtual U spell
+        public UISpell<T> spell
         {
-            get => _spell;
+            get => (UISpell<T>)_spell;
             set => _spell = value;
         }
 
-        /// <summary>
-        /// Calls the Reset UI function of the assigned spell and applies changes to the UI.
-        /// </summary>
-        public void ResetUI()
+        #region Pass-through methods
+        protected virtual void Awake()
         {
-            spell?.ResetUI(selectable);
+            if(spell != null)
+            {
+                spell.Awake(ui);
+            }
         }
 
+        protected virtual void Start()
+        {
+            if(spell != null)
+            {
+                spell.Start(ui);
+            }
+        }
+
+        protected virtual void OnEnable()
+        {
+            if(spell != null)
+            {
+                spell.OnEnable(ui);
+            }
+        }
+
+        protected virtual void LateUpdate()
+        {
+            if(spell != null)
+            {
+                spell.LateUpdate(ui);
+            }
+        }
+
+        protected virtual void OnDisable()
+        {
+            if(spell != null)
+            {
+                spell.OnDisable(ui);
+            }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if(spell != null)
+            {
+                spell.OnDestroy(ui);
+            }
+        }
+
+        protected virtual void OnValidate()
+        {
+            if(spell != null)
+            {
+                spell.OnValidate(ui);
+            }
+        }
+        
+        protected virtual void Reset()
+        {
+            if(spell != null)
+            {
+                spell.Reset(ui);
+            }
+        }
+        #endregion
+
+        #region managed type reference catch
 #if UNITY_EDITOR
         private string lastType;
         private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Default | BindingFlags.DeclaredOnly | BindingFlags.Instance;
@@ -99,68 +148,6 @@ namespace UIWitches
             }
 #endif
         }
-    }
-
-    /// <summary>
-    /// A UI Witch base class implementing generic UI Witch functionality.
-    /// </summary>
-    /// <typeparam name="T">The type of Selectable this UI Witch is for.</typeparam>
-    /// <typeparam name="U">The type of value the Selectable is expecting.</typeparam>
-    /// <typeparam name="V">The type of Spell this UI Witch needs.</typeparam>
-    public abstract class UIWitch<T, U, V> : UIWitch<T, V>
-        where T : Selectable
-        where V : class, IUISpell<T, U>
-    {
-        /// <summary>
-        /// The UI's on value changed event.
-        /// </summary>
-        protected abstract UnityEvent<U> onValueChanged { get; }
-        /// <summary>
-        /// The UI's set without notify method.
-        /// </summary>
-        protected abstract UnityAction<U> setWithoutNotify { get; }
-
-        public override V spell
-        {
-            get => base.spell;
-            set
-            {
-                if (base.spell != null)
-                {
-                    onValueChanged.RemoveListener(base.spell.OnValueChanged);
-                }
-
-                base.spell = value;
-
-                if (base.spell != null)
-                {
-                    onValueChanged.AddListener(base.spell.OnValueChanged);
-                }
-            }
-        }
-
-        protected virtual void OnEnable()
-        {
-            if (spell != null)
-            {
-                onValueChanged.AddListener(spell.OnValueChanged);
-            }
-        }
-
-        protected virtual void OnDisable()
-        {
-            if (spell != null)
-            {
-                onValueChanged.RemoveListener(spell.OnValueChanged);
-            }
-        }
-
-        protected virtual void LateUpdate()
-        {
-            if (spell != null)
-            {
-                setWithoutNotify.Invoke(spell.GetValue());
-            }
-        }
+        #endregion
     }
 }
