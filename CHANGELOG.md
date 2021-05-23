@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.1-pre.2] - 2021-05-21
 ### Fixed
-- Settings weren't correctly drawn in Unity 2021.1.
+- Spells weren't correctly drawn in Unity 2021.1.
 
 ## [0.1.1-pre] - 2021-05-19
 ### Added
