@@ -81,10 +81,10 @@ namespace UIWitches
                 spell.OnValidate(ui);
             }
         }
-        
-        protected virtual void Reset()
+
+        protected virtual void ResetSpell()
         {
-            if(spell != null)
+            if (spell != null)
             {
                 spell.Reset(ui);
             }

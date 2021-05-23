@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UIWitches.Editor
@@ -53,17 +54,43 @@ namespace UIWitches.Editor
             EditorGUILayout.PropertyField(m_Script, true);
             EditorGUI.EndDisabledGroup();
 
-            var index = Array.IndexOf(spellTypes, spellValue?.GetType()) + 1;
-
-            EditorGUI.BeginChangeCheck();
-            index = EditorGUILayout.Popup("Spells", index, displayOptions);
-            if(EditorGUI.EndChangeCheck())
+            EditorGUILayout.BeginHorizontal();
             {
-                var value = index == 0 ? null : Activator.CreateInstance(spellTypes[index - 1]);
-                _spell.managedReferenceValue = value;
-            }
+                var index = Array.IndexOf(spellTypes, spellValue?.GetType()) + 1;
+                EditorGUI.BeginChangeCheck();
+                index = EditorGUILayout.Popup("Spells", index, displayOptions);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var value = index == 0 ? null : Activator.CreateInstance(spellTypes[index - 1]);
+                    _spell.managedReferenceValue = value;
+                }
 
-            if(!string.IsNullOrEmpty(_spell.managedReferenceFullTypename))
+                if(index > 0)
+                {
+                    var style = GUI.skin.GetStyle("PaneOptions");
+                    style.margin.top = (int)UISpellDrawer.heightMargin;
+
+                    var buttonRect = GUILayoutUtility.GetRect(GUIContent.none, style, GUILayout.Width(0));
+
+                    if (GUILayout.Button(GUIContent.none, style))
+                    {
+                        var menu = new GenericMenu();
+
+                        menu.AddItem(new GUIContent("Reset Spell"), false, () =>
+                        {
+                            _spell.managedReferenceValue = Activator.CreateInstance(spellTypes[index - 1]);
+                            target.GetType().GetMethod("ResetSpell", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).Invoke(target, Array.Empty<object>());
+
+                            serializedObject.ApplyModifiedProperties();
+                        });
+
+                        menu.DropDown(buttonRect);
+                    }
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            if (!string.IsNullOrEmpty(_spell.managedReferenceFullTypename))
             {
                 EditorGUILayout.PropertyField(_spell, true);
             }

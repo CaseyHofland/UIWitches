@@ -6,7 +6,7 @@ namespace UIWitches.Editor
     [CustomPropertyDrawer(typeof(UISpell<>), true)]
     public class UISpellDrawer : PropertyDrawer
     {
-        private const float heightMargin = 2f;
+        public const float heightMargin = 2f;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
