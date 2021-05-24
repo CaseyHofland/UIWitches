@@ -1,0 +1,13 @@
+ {
+    "build": {
+      "globalMetadata": // Edit your documentation website info, see: https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html#322-reserved-metadata
+      {
+        "_appTitle": "UIWitches documentation",
+        "_appFooter": "UIWitches documentation",
+        "_enableSearch": true
+      },
+      "sitemap":
+      {
+        "baseUrl": "https://casey-hofland.github.io/UIWitches" // The URL of your documentation website
+      }
+  }
