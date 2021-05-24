@@ -10,7 +10,6 @@
                 }
             ],
             "globalNamespaceId": "Global",
-            "filter": "filterConfig.yml",
             "dest": "api"
         }
     ],
