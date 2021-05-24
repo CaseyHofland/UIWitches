@@ -5,10 +5,7 @@
                 {
                     "src": "..",
                     "files": [
-                        "Assets/**/*.cs"
-                    ],
-                    "exclude": [
-                        "Assets/Plugins/**"
+                        "Runtime/**/*.cs"
                     ]
                 }
             ],
