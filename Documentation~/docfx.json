@@ -5,7 +5,10 @@
                 {
                     "src": "..",
                     "files": [
-                        "**/*.cs"
+                        "Assets/**/*.cs"
+                    ],
+                    "exclude": [
+                        "Assets/Plugins/**"
                     ]
                 }
             ],
@@ -16,8 +19,8 @@
     ],
     "build": {
         "globalMetadata": {
-            "_appTitle": "UIWitches documentation",
-            "_appFooter": "UIWitches documentation",
+            "_appTitle": "Example Unity documentation",
+            "_appFooter": "Example Unity documentation",
             "_enableSearch": true
         },
         "content": [
@@ -41,6 +44,14 @@
                     "*.md"
                 ],
                 "dest": "manual"
+            }
+        ],
+        "overwrite": [
+            {
+                "src": "..",
+                "files": [
+                    "Assets/Scripts/**/*.md"
+                ]
             }
         ],
         "resource": [
