@@ -5,10 +5,7 @@
                 {
                     "src": "..",
                     "files": [
-                        "Assets/**/*.cs"
-                    ],
-                    "exclude": [
-                        "Assets/Plugins/**"
+                        "**/*.cs"
                     ]
                 }
             ],
@@ -19,8 +16,8 @@
     ],
     "build": {
         "globalMetadata": {
-            "_appTitle": "Example Unity documentation",
-            "_appFooter": "Example Unity documentation",
+            "_appTitle": "UIWitches documentation",
+            "_appFooter": "UIWitches documentation",
             "_enableSearch": true
         },
         "content": [
@@ -46,14 +43,6 @@
                 "dest": "manual"
             }
         ],
-        "overwrite": [
-            {
-                "src": "..",
-                "files": [
-                    "Assets/Scripts/**/*.md"
-                ]
-            }
-        ],
         "resource": [
             {
                 "files": [
@@ -62,7 +51,7 @@
             }
         ],
         "sitemap": {
-            "baseUrl": "https://normanderwan.github.io/DocFxForUnity",
+            "baseUrl": "https://casey-hofland.github.io/UIWitches",
             "changefreq": "weekly",
             "fileOptions": {
                 "api/*": {
