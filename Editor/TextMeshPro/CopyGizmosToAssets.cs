@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEditor;
 
-namespace UIWitches.v0_1_1_pre_2.TMPro.Editor
+namespace UIWitches.TMPro.Editor
 {
     [InitializeOnLoad]
     public class CopyGizmosToAssets
