@@ -111,13 +111,25 @@ namespace UIWitches
             {
                 UnityEditor.EditorApplication.delayCall += () =>
                 {
-                    // Destroy our object immediately. Doing this takes [DisallowMultipleComponent] into account.
-                    var go = gameObject;
-                    DestroyImmediate(this);
+                    // Find out how many places the component can move down.
+                    int goUp = 1;
+                    while (UnityEditorInternal.ComponentUtility.MoveComponentDown(this))
+                    {
+                        goUp++;
+                    }
 
                     // Create a new component of the same type.
                     var componentType = GetType();
-                    var component = go.AddComponent(componentType);
+                    var component = gameObject.AddComponent(componentType);
+
+                    // Move the new component up to its orinigal position.
+                    for(; goUp > 0; goUp--)
+                    {
+                        if(!UnityEditorInternal.ComponentUtility.MoveComponentUp(component))
+                        {
+                            break;
+                        }
+                    }
 
                     // Get all the fields (up to MonoBehaviour or we might break ID references).
                     IEnumerable<FieldInfo> finfos = Enumerable.Empty<FieldInfo>();
@@ -144,6 +156,9 @@ namespace UIWitches
                     {
                         finfo.SetValue(component, finfo.GetValue(this));
                     }
+
+                    // Destroy the broken instance.
+                    DestroyImmediate(this);
                 };
             }
 #endif

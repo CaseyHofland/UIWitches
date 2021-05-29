@@ -4,6 +4,11 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.0-pre.2] - 2021-05-29
+### Fixed
+- If a script was depending on a UIWitch, and that UIWitch had a selected a spell that was then deleted, the gameobject wouldn't remove the broken UIWitch.
+- UIWitches that are replaced are now put in at the same component position in the gameobject as the one that came before it.
+
 ## [0.2.0-pre] - 2021-05-23
 
 - The new and improved UI Witches do things completely different! Methods like GetValue and OnValueChanged where too limiting a restriction on the spells. If you would like to change the color of e.g. a health bar based on the amount of health, this was unviable with spells. For the solution, it was opted to give spells a suite of methods like OnEnable and LateUpdate with a parameter of the UIBehaviour. This way, the spell had full control over how to influence the UI. Since this new implementation is also generic, you can hook spells up to any UIBehaviour.

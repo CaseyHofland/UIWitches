@@ -1,6 +1,6 @@
 {
   "name": "com.caseydecoder.uiwitches",
-  "version": "0.2.0-pre",
+  "version": "0.2.0-pre.2",
   "displayName": "UI Witches",
   "description": "Cast a spell on your UI\n\r\nEasily separate UI code into their own scripts (spells) and select them with a generalized component (witch). This package will make your UI manipulation code reusable and make it easy for designers to experiment with and add logic to their UI.\n\nThe package assumes you have Unity UI installed. If you don't have Unity UI installed, the package won't compile as a safeguard.\nUI Witches also has Text Mesh Pro support where the same safeguard applies, though Text Mesh Pro is optional.",
   "unity": "2020.1",
