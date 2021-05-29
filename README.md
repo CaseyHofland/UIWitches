@@ -1,6 +1,8 @@
 # UI Witches
 > Cast a 💫spell on your UI!
 
+**Note that the package is under revision and the documentation is currently inaccurate for version >= 0.2**
+
 Easily separate UI code into their own scripts (spells) and select them with a generalized component (witch). This package will make your UI manipulation code reusable and make it easy for designers to experiment with and add logic to their UI.
 
 Check the [Wiki](https://github.com/Casey-Hofland/UIWitches/wiki) for the documentation.
