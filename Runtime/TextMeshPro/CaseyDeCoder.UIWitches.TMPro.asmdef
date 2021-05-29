@@ -2,7 +2,7 @@
     "name": "CaseyDeCoder.UIWitches.TMPro",
     "rootNamespace": "UIWitches.TMPro",
     "references": [
-        "GUID:90e9e789315a4e34095e8d9c254271fa",
+        "GUID:095fac04904b0e74ebabc05fc44903db",
         "GUID:2bafac87e7f4b9b418d9448d219b01ab",
         "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
